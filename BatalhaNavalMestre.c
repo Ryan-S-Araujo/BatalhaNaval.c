@@ -35,7 +35,7 @@ void exibirTabuleiro(int tabuleiro[TAM][TAM]) {
 
     //Posicionamento dos navios de maneira fixa para a visualização
 void posicionarNavios(int tabuleiro[TAM][TAM]) {
-   //Navio Horizontal
+    //Navio Horizontal
   for (int i = 0; i < 3; i++) {
     tabuleiro[1][2 + i] = NAVIO;
 }
@@ -80,7 +80,7 @@ void gerarCruz(int matriz[TAM_HABILIDADE][TAM_HABILIDADE]) {
   }
 }
 
-//Gera a matriz de octaedro (losango)
+    //Gera a matriz de octaedro (losango)
 void gerarOctaedro(int matriz[TAM_HABILIDADE][TAM_HABILIDADE]) {
   for (int i = 0; i < TAM_HABILIDADE; i++) {
     for (int j = 0; j < TAM_HABILIDADE; j++) {
@@ -93,9 +93,50 @@ void gerarOctaedro(int matriz[TAM_HABILIDADE][TAM_HABILIDADE]) {
 }
 
 
+    //Aplica a matriz de habilidade no tabuleiro com base no ponto central
+void aplicarHabilidade(int tabuleiro[TAM][TAM], int habilidade[TAM_HABILIDADE][TAM_HABILIDADE], int linhaCentro, int colunaCentro) {
+  int offset = TAM_HABILIADE / 2;
 
+   for (int i = 0; i < TAM_HABILIDADE; i++) {
+     for (inr j = 0; j < TAM_HABILIDADE; j++) {
+       int linhaTab  = linhaCentro - offset + i;
+       int colunaTab = colunaCentro - offset + j;
 
+       //Vai garantir que não saia dos limites
+      if (linhaTab >= 0 && linhaTab < TAM && colunaTab > = 0 && colunaTab < TAM) {
+        if (habilidade[i][j] == 1 && tabuleiro[linhaTab][colunaTab] == AGUA){
+          tabuleiro[linhaTab][colunaTab] = HABILIDADE;
+         }
+       }
+     }
+   }
+}
 
+int main() {
+  int tabuleiro[TAM][TAM];
+  int cone[TAM_HABILIDADE][TAM_HABILIDADE];
+  int cruz[TAM_HABILIDADE][TAM_HABILIDADE];
+  int octaedro[TAM_HABILIDADE][TAM_HABILIDADE];
+
+inicializarTabuleiro(tabuleiro);
+posicionarNAvios(tabuleiro);
+
+//Gera formas de habilidade
+gerarCone(cone);
+gerarCruz(cruz);
+gerarOctaedro(octaedro);
+
+//Aplica habilidades no tabuleiro com ponto de origem
+aplicaHabilidade(tabuleiro, cone, 2, 2);  //Cone no topo esquerdo
+aplicaHabilidade(tabuleiro, cruz, 5, 5); //Cruz no centro
+aplicaOctaedro(tabuleiro, octaedro 7, 2); //Octaedro canto inferior esquerdo
+
+//Vai exibir tabuleiro final
+printf("\nLegenda: ~ = Água | N = Navio | * = Habilidade\n\n");
+exibirTabuleiro(tabuleiro);
+
+return 0;
+}
 
 
 
